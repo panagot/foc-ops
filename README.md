@@ -61,13 +61,13 @@ Open **http://localhost:5310**
 
 ### Hosted demo (Vercel)
 
-Production deploy (after `npx vercel --prod`):
+**Live:** https://foc-ops.vercel.app  
 
-- Project: `foc-ops`
+- Project: `foc-ops` (linked to this private GitHub repo)
 - APIs: `/api/status` · `/api/tier` · `/api/network` · `/api/registry` · `/metrics`
-- Static console from `public/`
+- Static console from `public/` · Calibration Pay + TierRegistry wired
 
-If the URL is not listed below yet, run `npx vercel --prod` from this repo.
+Redeploy: `npx vercel --prod`
 
 ### What you should see
 
