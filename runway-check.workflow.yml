@@ -1,0 +1,30 @@
+name: foc-ops runway check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */12 * * *"
+  push:
+    paths:
+      - "src/**"
+      - "examples/**"
+      - ".github/workflows/runway-check.yml"
+
+jobs:
+  runway:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - name: Probe Calibration RPC
+        run: node src/cli.js network --network calibration --json
+      - name: Pay runway (address from secrets or zero)
+        env:
+          ADDR: ${{ secrets.FOC_PAY_ADDRESS }}
+        run: |
+          ADDR="${ADDR:-0x0000000000000000000000000000000000000001}"
+          node src/cli.js status --address "$ADDR" --network calibration --json | tee /tmp/status.json
+          node -e 'const fs=require("fs");const s=JSON.parse(fs.readFileSync("/tmp/status.json","utf8"));if(s.alert==="deficit"){console.error("deficit");process.exit(1);}if(s.runwayDays!==null&&s.runwayDays<3){console.error("runway<3d");process.exit(1);}console.log("ok",s.alert,s.runwayDays);'

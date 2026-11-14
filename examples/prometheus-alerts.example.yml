@@ -1,0 +1,17 @@
+groups:
+  - name: foc-ops
+    rules:
+      - alert: FocOpsLowRunway
+        expr: foc_ops_runway_days >= 0 and foc_ops_runway_days < 14
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Filecoin Pay runway under 14 days"
+      - alert: FocOpsDeficit
+        expr: foc_ops_alert == 2
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Filecoin Pay account in deficit — top up USDFC"

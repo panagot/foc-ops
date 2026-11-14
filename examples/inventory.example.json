@@ -1,0 +1,21 @@
+[
+  {
+    "pieceCid": "bafkzcibexamplewarmpiececid000000000000000000000000001",
+    "tier": "warm",
+    "storedAt": "2026-09-01T00:00:00.000Z",
+    "lastAccessAt": "2026-09-15T00:00:00.000Z",
+    "sizeBytes": 1048576
+  },
+  {
+    "pieceCid": "bafkzcibexamplerecentwarm0000000000000000000000000002",
+    "tier": "warm",
+    "storedAt": "2026-11-10T00:00:00.000Z",
+    "sizeBytes": 4096
+  },
+  {
+    "pieceCid": "bafkzcibexamplealreadycold000000000000000000000000003",
+    "tier": "cold",
+    "storedAt": "2026-01-01T00:00:00.000Z",
+    "sizeBytes": 999999
+  }
+]

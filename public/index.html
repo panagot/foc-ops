@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>foc-ops · Filecoin Calibration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <div class="app" id="appShell">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          foc-ops
+          <small>FOC Lifecycle Ops</small>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="badge" title="Filecoin Calibration testnet">
+          <span class="dot" aria-hidden="true"></span>
+          Calibration · 314159
+        </span>
+        <span class="badge" id="epochBadge">epoch …</span>
+        <span class="badge" id="scrapeBadge">scrape …</span>
+        <span class="badge alert-badge" id="alertBadge">alert …</span>
+        <span class="badge" id="rpcBadge" title="Live Glif Calibration RPC">RPC …</span>
+        <button type="button" class="btn" id="btnWallet">Connect wallet</button>
+      </div>
+    </header>
+
+    <aside class="sidebar" aria-label="Sections">
+      <div class="nav-label">Console</div>
+      <button class="nav-item active" type="button" data-nav="overview">Overview</button>
+      <button class="nav-item" type="button" data-nav="finops">FinOps + alerts</button>
+      <button class="nav-item" type="button" data-nav="tier">Tier dry-run</button>
+      <button class="nav-item" type="button" data-nav="network">Network + FVM</button>
+      <button class="nav-item" type="button" data-nav="how">How it works</button>
+
+      <div class="nav-label" style="margin-top:1rem">Wallet</div>
+      <button type="button" class="btn-primary" id="btnWalletSide">Connect · Calibration</button>
+      <div class="sidebar-note" id="walletNote" style="margin-top:0.5rem;margin-bottom:0.75rem">
+        Connect MetaMask/Rabby → add Calibration (314159) → live Filecoin Pay for your address.
+      </div>
+
+      <div class="nav-label">Data source</div>
+      <div class="scenario-pack" id="scenarioPack" role="group" aria-label="FinOps data source">
+        <button type="button" class="sc-btn active" data-scenario="live">Live Calibration</button>
+        <button type="button" class="sc-btn" data-scenario="low_runway">Drill · low runway</button>
+        <button type="button" class="sc-btn" data-scenario="healthy">Drill · healthy</button>
+        <button type="button" class="sc-btn" data-scenario="deficit">Drill · deficit</button>
+      </div>
+
+      <label class="field-label" for="addrInput">Pay address</label>
+      <input class="field" id="addrInput" spellcheck="false" placeholder="0x…" value="0x0000000000000000000000000000000000000001" />
+      <button type="button" class="btn-primary" id="btnApplyAddr">Apply + refresh</button>
+
+      <div class="sidebar-note">
+        Default is <strong style="color:var(--ink)">Live Calibration</strong> (Glif + Filecoin Pay). Drills are labeled demos only — not the product path.
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="panel active" id="panel-overview">
+        <h1 class="hero-title">See burn. Act before warm storage dies.</h1>
+        <p class="hero-sub">
+          Operate the loop: Pay runway → alert fire → policy dry-run → projected cold promotions.
+          Demo model couples FinOps to tier so promotions show runway regained.
+        </p>
+        <div class="callout" id="demoCallout">Loading scenario…</div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-primary" id="btnRunDry">Run dry-run</button>
+          <button type="button" class="btn-ghost" id="btnInjectSpend">Inject spend (alert drill)</button>
+          <span class="action-meta" id="actionMeta">Poll every 8s</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="block">
+            <h3>
+              <span class="label-row">
+                Runway
+                <button class="tip" type="button" data-tip="Days until available USDFC hits zero. Scenario fixtures by default; Live reads Calibration.">?</button>
+              </span>
+            </h3>
+            <div class="metric-xl" id="ovRunway"><span class="skeleton" style="width:8rem;display:inline-block;height:2.2rem"></span></div>
+            <div class="metric-sub" id="ovRunwaySub">until Pay deficit</div>
+            <div class="chart-wrap" id="gaugeChart"></div>
+          </div>
+          <div class="block">
+            <h3>Coupling · promote → runway</h3>
+            <div class="metric-xl" id="couplingDays" style="font-size:1.8rem">—</div>
+            <div class="metric-sub" id="couplingSub">runway days gained if promotes execute</div>
+            <div class="kv" id="ovKv">
+              <div class="kv-row"><span>Alert</span><span id="ovAlert">…</span></div>
+              <div class="kv-row"><span>Would promote</span><span id="ovPromote">…</span></div>
+              <div class="kv-row"><span>Skipped</span><span id="ovSkip">…</span></div>
+              <div class="kv-row"><span>Inventory</span><span id="ovInv">…</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem">
+          <div class="block">
+            <h3>Activity feed</h3>
+            <div class="feed" id="activityFeed" aria-live="polite"></div>
+          </div>
+          <div class="block">
+            <h3>CLI mirror</h3>
+            <pre class="term" id="cliMirror">$ foc-ops status — waiting…</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-finops">
+        <h1 class="hero-title">FinOps + alert drill</h1>
+        <p class="hero-sub">Same gauges as Prometheus. Inject spend to watch ok → low_runway → deficit fire in-console.</p>
+        <div class="grid-2">
+          <div class="block">
+            <h3>Funds vs lockup</h3>
+            <div class="chart-wrap" id="barChart"></div>
+            <div class="kv" id="finopsKv"></div>
+          </div>
+          <div class="block">
+            <h3>Live /metrics scrape</h3>
+            <pre class="term term-sm" id="metricsPane">scraping…</pre>
+            <p class="metric-sub" style="margin-top:0.75rem">
+              PromQL that fires: <code class="mono">foc_ops_alert &gt; 0</code> or
+              <code class="mono">foc_ops_runway_days &lt; 14</code>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-tier">
+        <h1 class="hero-title">Tier dry-run · warm → cold</h1>
+        <p class="hero-sub">
+          Scrub policy — rows migrate live. Then <strong>Run dry-run</strong> for stepped intents (no chain write).
+        </p>
+
+        <div class="controls">
+          <label class="ctrl">
+            <span>promoteAfterDays <strong id="policyDaysLabel">30</strong></span>
+            <input type="range" id="policyDays" min="1" max="90" value="30" />
+          </label>
+          <label class="ctrl">
+            <span>minSizeBytes <strong id="minSizeLabel">0</strong></span>
+            <input type="range" id="minSize" min="0" max="104857600" step="65536" value="0" />
+          </label>
+          <div class="delta" id="tierDelta">Δ promote —</div>
+        </div>
+
+        <div class="grid-2">
+          <div class="block">
+            <h3>Promote vs skip</h3>
+            <div class="chart-wrap" id="pieChart"></div>
+          </div>
+          <div class="block">
+            <h3>Age vs threshold</h3>
+            <div class="chart-wrap" id="timelineChart"></div>
+          </div>
+        </div>
+
+        <div class="block" style="margin-top:1rem">
+          <h3>Projected registry intents</h3>
+          <div class="feed" id="intentFeed"></div>
+        </div>
+
+        <div class="block" style="margin-top:1rem">
+          <h3>Would promote</h3>
+          <table class="data">
+            <thead><tr><th>Piece</th><th>Age</th><th>Size</th><th>Reason</th></tr></thead>
+            <tbody id="promoteBody"></tbody>
+          </table>
+        </div>
+        <div class="block" style="margin-top:1rem">
+          <h3>Skipped</h3>
+          <table class="data">
+            <thead><tr><th>Piece</th><th>Reason</th><th>Tier</th></tr></thead>
+            <tbody id="skipBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-network">
+        <h1 class="hero-title">Network + FVM registry</h1>
+        <p class="hero-sub">
+          Always-on Calibration RPC probe (Glif). TierRegistry deploy + wallet <code class="mono">recordPromotion</code> when address is set.
+        </p>
+        <div class="grid-2">
+          <div class="block">
+            <h3>Live RPC probe</h3>
+            <div class="kv" id="netKv">
+              <div class="kv-row"><span>status</span><span>…</span></div>
+            </div>
+          </div>
+          <div class="block">
+            <h3>TierRegistry</h3>
+            <div class="kv" id="regKv">
+              <div class="kv-row"><span>deployed</span><span>…</span></div>
+            </div>
+            <button type="button" class="btn-primary" id="btnSignPromote" style="margin-top:0.85rem;width:auto">
+              Wallet: submit sample promote
+            </button>
+            <p class="metric-sub" id="regHint" style="margin-top:0.65rem">Deploy with scripts/deploy-registry.mjs when you have Calibration tFIL.</p>
+          </div>
+        </div>
+        <div class="block" style="margin-top:1rem">
+          <h3>Wallet tx template</h3>
+          <pre class="term term-sm" id="txTemplate">connect wallet + deploy registry to enable on-chain promote</pre>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-how">
+        <h1 class="hero-title">What you just ran</h1>
+        <p class="hero-sub">M1–M2 surface. FVM registry write is the next milestone — intents above are the preview.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="n">01</div>
+            <h4>Read Pay health</h4>
+            <p>Scenario fixture or live Calibration <code class="mono">getAccountSummary</code>.</p>
+          </div>
+          <div class="step">
+            <div class="n">02</div>
+            <h4>Alert thresholds</h4>
+            <p>Inject spend until badges flip; metrics pane mirrors Prometheus.</p>
+          </div>
+          <div class="step">
+            <div class="n">03</div>
+            <h4>Tier dry-run</h4>
+            <p>Policy scrub + Run dry-run produces promote intents.</p>
+          </div>
+          <div class="step">
+            <div class="n">04</div>
+            <h4>FVM registry</h4>
+            <p>Unsigned calldata preview only — deploy path in grant M2.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>filecoin/foc-ops</strong> · MIT · Calibration ·
+        Grant $10k Next Step · Backup if declined:
+        <a href="/grant/BACKUP_TERRAFORM.md">Terraform FOC</a>
+      </div>
+      <div class="mono" style="font-size:0.72rem">
+        X100 prompt · grant/PROMPT_X100_DEMO.md
+      </div>
+    </footer>
+  </div>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

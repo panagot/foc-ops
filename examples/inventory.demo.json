@@ -1,0 +1,290 @@
+[
+  {
+    "pieceCid": "bafkzcib0001aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "cold",
+    "storedAt": "2026-09-02T18:46:36.945Z",
+    "lastAccessAt": "2026-11-10T18:46:36.945Z",
+    "sizeBytes": 4096,
+    "label": "snapshot-1000"
+  },
+  {
+    "pieceCid": "bafybeig0002aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-09-19T11:34:36.945Z",
+    "lastAccessAt": "2026-11-09T18:46:36.945Z",
+    "sizeBytes": 65536,
+    "label": "index-1001"
+  },
+  {
+    "pieceCid": "baga6ea40003aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-09-26T04:22:36.945Z",
+    "lastAccessAt": "2026-11-08T18:46:36.945Z",
+    "sizeBytes": 1048576,
+    "label": "blob-1002"
+  },
+  {
+    "pieceCid": "bafkzcib0004aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-02T21:10:36.945Z",
+    "lastAccessAt": "2026-11-07T18:46:36.945Z",
+    "sizeBytes": 5242880,
+    "label": "dataset-1003"
+  },
+  {
+    "pieceCid": "bafybeig0005aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-05T13:58:36.945Z",
+    "lastAccessAt": "2026-11-06T18:46:36.945Z",
+    "sizeBytes": 20971520,
+    "label": "wal-1004"
+  },
+  {
+    "pieceCid": "baga6ea40006aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-08T06:46:36.945Z",
+    "lastAccessAt": "2026-11-10T18:46:36.945Z",
+    "sizeBytes": 104857600,
+    "label": "manifest-1005"
+  },
+  {
+    "pieceCid": "bafkzcib0007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-09T23:34:36.945Z",
+    "lastAccessAt": "2026-11-09T18:46:36.945Z",
+    "sizeBytes": 524288000,
+    "label": "snapshot-1006"
+  },
+  {
+    "pieceCid": "bafybeig0008aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-13T18:46:36.945Z",
+    "lastAccessAt": "2026-11-08T18:46:36.945Z",
+    "sizeBytes": 4096,
+    "label": "index-1007"
+  },
+  {
+    "pieceCid": "baga6ea40009aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-16T11:34:36.945Z",
+    "lastAccessAt": "2026-11-07T18:46:36.945Z",
+    "sizeBytes": 65536,
+    "label": "blob-1008"
+  },
+  {
+    "pieceCid": "bafkzcib000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-19T04:22:36.945Z",
+    "lastAccessAt": "2026-11-06T18:46:36.945Z",
+    "sizeBytes": 1048576,
+    "label": "dataset-1009"
+  },
+  {
+    "pieceCid": "bafybeig000baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-21T21:10:36.945Z",
+    "lastAccessAt": "2026-11-10T18:46:36.945Z",
+    "sizeBytes": 5242880,
+    "label": "wal-1010"
+  },
+  {
+    "pieceCid": "baga6ea4000caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "cold",
+    "storedAt": "2026-10-25T13:58:36.945Z",
+    "lastAccessAt": "2026-11-09T18:46:36.945Z",
+    "sizeBytes": 20971520,
+    "label": "manifest-1011"
+  },
+  {
+    "pieceCid": "bafkzcib000daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-28T06:46:36.945Z",
+    "lastAccessAt": "2026-11-08T18:46:36.945Z",
+    "sizeBytes": 104857600,
+    "label": "snapshot-1012"
+  },
+  {
+    "pieceCid": "bafybeig000eaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-30T23:34:36.945Z",
+    "lastAccessAt": "2026-11-07T18:46:36.945Z",
+    "sizeBytes": 524288000,
+    "label": "index-1013"
+  },
+  {
+    "pieceCid": "baga6ea4000faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-11-04T18:46:36.945Z",
+    "lastAccessAt": "2026-11-06T18:46:36.945Z",
+    "sizeBytes": 4096,
+    "label": "blob-1014"
+  },
+  {
+    "pieceCid": "bafkzcib0010aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-11-07T11:34:36.945Z",
+    "lastAccessAt": "2026-11-10T18:46:36.945Z",
+    "sizeBytes": 65536,
+    "label": "dataset-1015"
+  },
+  {
+    "pieceCid": "bafybeig0011aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-11-09T04:22:36.945Z",
+    "lastAccessAt": "2026-11-09T18:46:36.945Z",
+    "sizeBytes": 1048576,
+    "label": "wal-1016"
+  },
+  {
+    "pieceCid": "baga6ea40012aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "fwss",
+    "storedAt": "2026-11-10T21:10:36.945Z",
+    "lastAccessAt": "2026-11-10T21:10:36.945Z",
+    "sizeBytes": 5242880,
+    "label": "manifest-1017"
+  },
+  {
+    "pieceCid": "bafkzcib0013aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-11-11T13:58:36.945Z",
+    "lastAccessAt": "2026-11-11T13:58:36.945Z",
+    "sizeBytes": 20971520,
+    "label": "snapshot-1018"
+  },
+  {
+    "pieceCid": "bafybeig0014aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-11-11T18:46:36.945Z",
+    "lastAccessAt": "2026-11-11T18:46:36.945Z",
+    "sizeBytes": 104857600,
+    "label": "index-1019"
+  },
+  {
+    "pieceCid": "baga6ea40015aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-08-31T23:34:36.945Z",
+    "lastAccessAt": "2026-11-10T18:46:36.945Z",
+    "sizeBytes": 524288000,
+    "label": "blob-1020"
+  },
+  {
+    "pieceCid": "bafkzcib0016aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-09-19T18:46:36.945Z",
+    "lastAccessAt": "2026-11-09T18:46:36.945Z",
+    "sizeBytes": 4096,
+    "label": "dataset-1021"
+  },
+  {
+    "pieceCid": "bafybeig0017aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "cold",
+    "storedAt": "2026-09-26T11:34:36.945Z",
+    "lastAccessAt": "2026-11-08T18:46:36.945Z",
+    "sizeBytes": 65536,
+    "label": "wal-1022"
+  },
+  {
+    "pieceCid": "baga6ea40018aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-03T04:22:36.945Z",
+    "lastAccessAt": "2026-11-07T18:46:36.945Z",
+    "sizeBytes": 1048576,
+    "label": "manifest-1023"
+  },
+  {
+    "pieceCid": "bafkzcib0019aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-05T21:10:36.945Z",
+    "lastAccessAt": "2026-11-06T18:46:36.945Z",
+    "sizeBytes": 5242880,
+    "label": "snapshot-1024"
+  },
+  {
+    "pieceCid": "bafybeig001aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-08T13:58:36.945Z",
+    "lastAccessAt": "2026-11-10T18:46:36.945Z",
+    "sizeBytes": 20971520,
+    "label": "index-1025"
+  },
+  {
+    "pieceCid": "baga6ea4001baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-10T06:46:36.945Z",
+    "lastAccessAt": "2026-11-09T18:46:36.945Z",
+    "sizeBytes": 104857600,
+    "label": "blob-1026"
+  },
+  {
+    "pieceCid": "bafkzcib001caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-11T23:34:36.945Z",
+    "lastAccessAt": "2026-11-08T18:46:36.945Z",
+    "sizeBytes": 524288000,
+    "label": "dataset-1027"
+  },
+  {
+    "pieceCid": "bafybeig001daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-16T18:46:36.945Z",
+    "lastAccessAt": "2026-11-07T18:46:36.945Z",
+    "sizeBytes": 4096,
+    "label": "wal-1028"
+  },
+  {
+    "pieceCid": "baga6ea4001eaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-19T11:34:36.945Z",
+    "lastAccessAt": "2026-11-06T18:46:36.945Z",
+    "sizeBytes": 65536,
+    "label": "manifest-1029"
+  },
+  {
+    "pieceCid": "bafkzcib001faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-22T04:22:36.945Z",
+    "lastAccessAt": "2026-11-10T18:46:36.945Z",
+    "sizeBytes": 1048576,
+    "label": "snapshot-1030"
+  },
+  {
+    "pieceCid": "bafybeig0020aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-25T21:10:36.945Z",
+    "lastAccessAt": "2026-11-09T18:46:36.945Z",
+    "sizeBytes": 5242880,
+    "label": "index-1031"
+  },
+  {
+    "pieceCid": "baga6ea40021aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-10-28T13:58:36.945Z",
+    "lastAccessAt": "2026-11-08T18:46:36.945Z",
+    "sizeBytes": 20971520,
+    "label": "blob-1032"
+  },
+  {
+    "pieceCid": "bafkzcib0022aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "cold",
+    "storedAt": "2026-10-31T06:46:36.945Z",
+    "lastAccessAt": "2026-11-07T18:46:36.945Z",
+    "sizeBytes": 104857600,
+    "label": "dataset-1033"
+  },
+  {
+    "pieceCid": "bafybeig0023aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "fwss",
+    "storedAt": "2026-11-02T23:34:36.945Z",
+    "lastAccessAt": "2026-11-06T18:46:36.945Z",
+    "sizeBytes": 524288000,
+    "label": "wal-1034"
+  },
+  {
+    "pieceCid": "baga6ea40024aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tier": "warm",
+    "storedAt": "2026-11-07T18:46:36.945Z",
+    "lastAccessAt": "2026-11-10T18:46:36.945Z",
+    "sizeBytes": 4096,
+    "label": "manifest-1035"
+  }
+]

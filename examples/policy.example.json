@@ -1,0 +1,6 @@
+{
+  "promoteAfterDays": 30,
+  "minSizeBytes": 0,
+  "sourceTiers": ["warm", "fwss"],
+  "targetTier": "cold"
+}
