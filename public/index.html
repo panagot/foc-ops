@@ -43,7 +43,7 @@
       <div class="nav-label" style="margin-top:1rem">Wallet</div>
       <button type="button" class="btn-primary" id="btnWalletSide">Connect · Calibration</button>
       <div class="sidebar-note" id="walletNote" style="margin-top:0.5rem;margin-bottom:0.75rem">
-        Connect MetaMask/Rabby → add Calibration (314159) → live Filecoin Pay for your address.
+        Connect MetaMask/Rabby → Calibration (314159) → live Filecoin Pay. Click again to disconnect from this console.
       </div>
 
       <div class="nav-label">Data source</div>
@@ -55,7 +55,7 @@
       </div>
 
       <label class="field-label" for="addrInput">Pay address</label>
-      <input class="field" id="addrInput" spellcheck="false" placeholder="0x…" value="0x0000000000000000000000000000000000000001" />
+      <input class="field" id="addrInput" spellcheck="false" placeholder="0x… (server default if empty)" value="" />
       <button type="button" class="btn-primary" id="btnApplyAddr">Apply + refresh</button>
 
       <div class="sidebar-note">
@@ -216,12 +216,12 @@
 
       <section class="panel" id="panel-how">
         <h1 class="hero-title">What you just ran</h1>
-        <p class="hero-sub">M1–M2 surface. FVM registry write is the next milestone — intents above are the preview.</p>
+        <p class="hero-sub">Live Pay + dry-run work now. TierRegistry is on Calibration; Mainnet + warm→cold execute ship in the grant.</p>
         <div class="steps">
           <div class="step">
             <div class="n">01</div>
             <h4>Read Pay health</h4>
-            <p>Scenario fixture or live Calibration <code class="mono">getAccountSummary</code>.</p>
+            <p>Live Calibration <code class="mono">getAccountSummary</code> (or labeled drills).</p>
           </div>
           <div class="step">
             <div class="n">02</div>
@@ -236,7 +236,7 @@
           <div class="step">
             <div class="n">04</div>
             <h4>FVM registry</h4>
-            <p>Unsigned calldata preview only — deploy path in grant M2.</p>
+            <p>Calibration TierRegistry live — wallet can <code class="mono">recordPromotion</code>.</p>
           </div>
         </div>
       </section>

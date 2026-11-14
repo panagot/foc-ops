@@ -1,18 +1,23 @@
 const $ = (sel) => document.querySelector(sel);
 
+const DEMO_FALLBACK = "0x0000000000000000000000000000000000000001";
+
 const state = {
   scenario: "live",
-  address: "0x0000000000000000000000000000000000000001",
+  /** null = use server FOC_DEMO_ADDRESS default */
+  address: null,
   promoteAfterDays: 30,
   minSizeBytes: 0,
   lastPromoteCount: null,
   lastAlert: null,
-  spendStep: 0, // 0=base scenario, 1=force low, 2=force deficit override on display
+  spendStep: 0,
   status: null,
   tier: null,
   wallet: null,
   registry: null,
   network: null,
+  refreshInFlight: false,
+  policyTimer: null,
 };
 
 function fmtUsdfc(weiStr) {
@@ -58,6 +63,7 @@ document.querySelectorAll("[data-nav]").forEach((el) => {
 });
 
 function logFeed(el, level, msg) {
+  if (!el) return;
   const line = document.createElement("div");
   line.className = `feed-line ${level || ""}`;
   const ts = new Date().toISOString().slice(11, 19);
@@ -165,7 +171,10 @@ function applySpendOverride(status) {
   if (state.spendStep === 1) {
     return {
       ...status,
-      runwayDays: Math.min(status.runwayDays ?? 6, 5.1),
+      runwayDays: Math.min(
+        status.runwayDays === null ? 6 : status.runwayDays,
+        5.1
+      ),
       availableFunds: "8000000000000000000",
       alert: "low_runway",
       drill: "injected_low_runway",
@@ -184,6 +193,7 @@ function applySpendOverride(status) {
 
 function pulseAlert(alert) {
   const shell = $("#appShell");
+  if (!shell) return;
   shell.classList.remove("pulse-warn", "pulse-bad");
   if (alert === "low_runway") shell.classList.add("pulse-warn");
   if (alert === "deficit") shell.classList.add("pulse-bad");
@@ -197,12 +207,37 @@ function pulseAlert(alert) {
   state.lastAlert = alert;
 }
 
+function setWalletUi(connectedAddr) {
+  const short = connectedAddr
+    ? `${connectedAddr.slice(0, 6)}…${connectedAddr.slice(-4)}`
+    : null;
+  $("#btnWallet").textContent = short ? `Disconnect ${short}` : "Connect wallet";
+  $("#btnWallet").classList.toggle("connected", Boolean(connectedAddr));
+  $("#btnWallet").title = connectedAddr
+    ? "Disconnect from foc-ops console (does not remove MetaMask permissions site-wide)"
+    : "Connect MetaMask / Rabby on Calibration";
+  $("#btnWalletSide").textContent = short
+    ? "Disconnect wallet"
+    : "Connect · Calibration";
+  $("#walletNote").innerHTML = connectedAddr
+    ? `Connected <code class="mono">${connectedAddr}</code>. Click Disconnect to clear console session.`
+    : "Connect MetaMask/Rabby → Calibration (314159) → live Filecoin Pay. Click again to disconnect.";
+}
+
 function renderStatus(raw) {
   const status = applySpendOverride(raw);
   state.status = status;
   if (status.error) {
     $("#demoCallout").textContent = `Error: ${status.error}`;
     return;
+  }
+
+  if (status.address && !state.wallet) {
+    const input = $("#addrInput");
+    if (input && (!input.value || input.value === DEMO_FALLBACK)) {
+      input.value = status.address;
+    }
+    if (!state.address) state.address = status.address;
   }
 
   const modeLabel =
@@ -258,6 +293,19 @@ function renderStatus(raw) {
     `available=${fmtUsdfc(status.availableFunds)} lockup=${fmtUsdfc(status.totalLockup)} debt=${fmtUsdfc(status.debt)}`,
     `epoch=${status.epoch}`,
   ].join("\n");
+
+  // Keep metrics pane consistent with drill overrides
+  if (state.spendStep > 0) {
+    const alertNum =
+      status.alert === "ok" ? 0 : status.alert === "low_runway" ? 1 : 2;
+    const runway = status.runwayDays === null ? -1 : status.runwayDays;
+    $("#metricsPane").textContent = [
+      `# drill override spendStep=${state.spendStep}`,
+      `foc_ops_runway_days ${runway}`,
+      `foc_ops_alert ${alertNum}`,
+      `# alert=${status.alert}`,
+    ].join("\n");
+  }
 
   pulseAlert(status.alert);
 }
@@ -318,10 +366,9 @@ function renderTier(tier) {
 }
 
 async function fetchMetrics() {
-  const q = new URLSearchParams({
-    scenario: state.scenario,
-    address: state.address,
-  });
+  if (state.spendStep > 0) return; // drill pane filled in renderStatus
+  const q = new URLSearchParams({ scenario: state.scenario });
+  if (state.address) q.set("address", state.address);
   const res = await fetch(`/api/metrics-text?${q}`);
   const text = await res.text();
   $("#metricsPane").textContent = text.trim();
@@ -337,12 +384,14 @@ async function fetchNetworkAndRegistry() {
   state.network = net;
   state.registry = reg;
 
+  const rpc = $("#rpcBadge");
+  rpc.classList.remove("ok", "bad");
   if (net.ok) {
-    $("#rpcBadge").textContent = `RPC live · blk ${net.blockNumber} · ${net.latencyMs}ms`;
-    $("#rpcBadge").classList.add("ok");
+    rpc.textContent = `RPC live · blk ${net.blockNumber} · ${net.latencyMs}ms`;
+    rpc.classList.add("ok");
   } else {
-    $("#rpcBadge").textContent = `RPC fail · ${net.error || "error"}`;
-    $("#rpcBadge").classList.add("bad");
+    rpc.textContent = `RPC fail · ${net.error || "error"}`;
+    rpc.classList.add("bad");
   }
 
   $("#netKv").innerHTML = net.ok
@@ -409,6 +458,36 @@ async function ensureCalibration(ethereum, chain) {
   }
 }
 
+async function disconnectWallet() {
+  const prev = state.wallet;
+  state.wallet = null;
+  state.address = null;
+  state.spendStep = 0;
+  $("#addrInput").value = "";
+  setWalletUi(null);
+
+  // Best-effort revoke (MetaMask); ignore if unsupported
+  try {
+    if (window.ethereum?.request) {
+      await window.ethereum.request({
+        method: "wallet_revokePermissions",
+        params: [{ eth_accounts: {} }],
+      });
+    }
+  } catch {
+    /* optional */
+  }
+
+  logFeed(
+    $("#activityFeed"),
+    "info",
+    prev
+      ? `wallet disconnected · was ${prev.slice(0, 10)}…`
+      : "wallet disconnected"
+  );
+  await refresh();
+}
+
 async function connectWallet() {
   const ethereum = window.ethereum;
   if (!ethereum) {
@@ -418,12 +497,22 @@ async function connectWallet() {
   const reg = state.registry || (await (await fetch("/api/registry")).json());
   state.registry = reg;
   const chain = reg.calibrationChain;
+  if (!chain?.chainId) {
+    logFeed($("#activityFeed"), "warn", "registry payload missing calibrationChain");
+    return;
+  }
   await ensureCalibration(ethereum, chain);
   const accounts = await ethereum.request({
     method: "eth_requestAccounts",
   });
   const addr = accounts?.[0];
   if (!addr) return;
+  applyWalletAddress(addr);
+  logFeed($("#activityFeed"), "ok", `wallet connected · ${addr.slice(0, 10)}… · live mode`);
+  await refresh();
+}
+
+function applyWalletAddress(addr) {
   state.wallet = addr;
   state.address = addr;
   state.scenario = "live";
@@ -432,17 +521,40 @@ async function connectWallet() {
   document.querySelectorAll("[data-scenario]").forEach((b) => {
     b.classList.toggle("active", b.dataset.scenario === "live");
   });
-  $("#btnWallet").textContent = `${addr.slice(0, 6)}…${addr.slice(-4)}`;
-  $("#btnWallet").classList.add("connected");
-  $("#btnWalletSide").textContent = "Wallet connected · live Pay";
-  $("#walletNote").innerHTML = `Live Filecoin Pay for <code class="mono">${addr}</code> on Calibration.`;
-  logFeed($("#activityFeed"), "ok", `wallet connected · ${addr.slice(0, 10)}… · live mode`);
-  await refresh();
+  setWalletUi(addr);
+}
+
+async function toggleWallet() {
+  if (state.wallet) {
+    await disconnectWallet();
+  } else {
+    await connectWallet();
+  }
+}
+
+function bindWalletEvents() {
+  const eth = window.ethereum;
+  if (!eth?.on) return;
+  eth.on("accountsChanged", (accounts) => {
+    const next = accounts?.[0];
+    if (!next) {
+      disconnectWallet().catch(console.error);
+      return;
+    }
+    if (state.wallet && next.toLowerCase() !== state.wallet.toLowerCase()) {
+      applyWalletAddress(next);
+      logFeed($("#activityFeed"), "info", `account changed · ${next.slice(0, 10)}…`);
+      refresh().catch(console.error);
+    }
+  });
+  eth.on("chainChanged", () => {
+    logFeed($("#activityFeed"), "info", "chainChanged · refreshing");
+    refresh().catch(console.error);
+  });
 }
 
 async function walletSubmitPromote() {
-  const ethereum = window.ethereum;
-  if (!ethereum || !state.wallet) {
+  if (!window.ethereum || !state.wallet) {
     await connectWallet();
   }
   if (!window.ethereum || !state.wallet) return;
@@ -475,23 +587,27 @@ async function walletSubmitPromote() {
 }
 
 async function refresh() {
-  const sq = new URLSearchParams({
-    scenario: state.scenario,
-    address: state.address,
-  });
-  const tq = new URLSearchParams({
-    promoteAfterDays: String(state.promoteAfterDays),
-    minSizeBytes: String(state.minSizeBytes),
-  });
-  const [statusRes, tierRes] = await Promise.all([
-    fetch(`/api/status?${sq}`),
-    fetch(`/api/tier?${tq}`),
-  ]);
-  const status = await statusRes.json();
-  const tier = await tierRes.json();
-  renderStatus(status);
-  renderTier(tier);
-  await Promise.all([fetchMetrics(), fetchNetworkAndRegistry()]);
+  if (state.refreshInFlight) return;
+  state.refreshInFlight = true;
+  try {
+    const sq = new URLSearchParams({ scenario: state.scenario });
+    if (state.address) sq.set("address", state.address);
+    const tq = new URLSearchParams({
+      promoteAfterDays: String(state.promoteAfterDays),
+      minSizeBytes: String(state.minSizeBytes),
+    });
+    const [statusRes, tierRes] = await Promise.all([
+      fetch(`/api/status?${sq}`),
+      fetch(`/api/tier?${tq}`),
+    ]);
+    const status = await statusRes.json();
+    const tier = await tierRes.json();
+    renderStatus(status);
+    renderTier(tier);
+    await Promise.all([fetchMetrics(), fetchNetworkAndRegistry()]);
+  } finally {
+    state.refreshInFlight = false;
+  }
 }
 
 async function runDryRun() {
@@ -507,7 +623,7 @@ async function runDryRun() {
   const res = await fetch(`/api/dry-run?${q}`);
   const data = await res.json();
   for (const step of data.steps || []) {
-    await new Promise((r) => setTimeout(r, Math.min(step.t ? 45 : 30, 80)));
+    await new Promise((r) => setTimeout(r, 45));
     logFeed(feed, step.level, step.msg);
     if (step.intent) {
       const row = document.createElement("div");
@@ -525,7 +641,6 @@ async function runDryRun() {
 function injectSpend() {
   state.spendStep = Math.min(2, state.spendStep + 1);
   if (state.status) renderStatus(state.status);
-  fetchMetrics();
   logFeed(
     $("#activityFeed"),
     "warn",
@@ -536,7 +651,13 @@ function injectSpend() {
   setNav("finops");
 }
 
-// Scenario buttons
+function schedulePolicyRefresh() {
+  clearTimeout(state.policyTimer);
+  state.policyTimer = setTimeout(() => {
+    refresh().catch(console.error);
+  }, 250);
+}
+
 document.querySelectorAll("[data-scenario]").forEach((btn) => {
   btn.addEventListener("click", () => {
     state.scenario = btn.dataset.scenario;
@@ -551,11 +672,20 @@ document.querySelectorAll("[data-scenario]").forEach((btn) => {
 
 $("#btnApplyAddr").addEventListener("click", () => {
   const v = $("#addrInput").value.trim();
+  if (!v) {
+    state.address = null;
+    refresh().catch(console.error);
+    return;
+  }
   if (!/^0x[a-fA-F0-9]{40}$/.test(v)) {
     logFeed($("#activityFeed"), "warn", "invalid address");
     return;
   }
   state.address = v;
+  if (state.wallet && v.toLowerCase() !== state.wallet.toLowerCase()) {
+    // Manual address override leaves wallet session but shows chosen Pay account
+    logFeed($("#activityFeed"), "info", "Pay address override (wallet still connected)");
+  }
   refresh().catch(console.error);
 });
 
@@ -564,10 +694,10 @@ $("#btnRunDry").addEventListener("click", () => {
 });
 $("#btnInjectSpend").addEventListener("click", injectSpend);
 $("#btnWallet").addEventListener("click", () =>
-  connectWallet().catch((e) => logFeed($("#activityFeed"), "warn", String(e)))
+  toggleWallet().catch((e) => logFeed($("#activityFeed"), "warn", String(e?.message || e)))
 );
 $("#btnWalletSide").addEventListener("click", () =>
-  connectWallet().catch((e) => logFeed($("#activityFeed"), "warn", String(e)))
+  toggleWallet().catch((e) => logFeed($("#activityFeed"), "warn", String(e?.message || e)))
 );
 $("#btnSignPromote").addEventListener("click", () =>
   walletSubmitPromote().catch((e) =>
@@ -578,13 +708,16 @@ $("#btnSignPromote").addEventListener("click", () =>
 $("#policyDays").addEventListener("input", (e) => {
   state.promoteAfterDays = Number(e.target.value);
   $("#policyDaysLabel").textContent = String(state.promoteAfterDays);
-  refresh().catch(console.error);
+  schedulePolicyRefresh();
 });
 $("#minSize").addEventListener("input", (e) => {
   state.minSizeBytes = Number(e.target.value);
   $("#minSizeLabel").textContent = String(state.minSizeBytes);
-  refresh().catch(console.error);
+  schedulePolicyRefresh();
 });
+
+setWalletUi(null);
+bindWalletEvents();
 
 refresh()
   .then(() => logFeed($("#activityFeed"), "ok", "console live · Calibration Pay default"))
@@ -593,5 +726,6 @@ refresh()
   });
 
 setInterval(() => {
+  if (document.hidden) return;
   refresh().catch(() => {});
 }, 8000);
