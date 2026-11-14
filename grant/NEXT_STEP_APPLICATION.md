@@ -8,7 +8,7 @@
 
 **Proposer:** `panagot`
 
-**Project Repo(s):** https://github.com/panagot/foc-ops *(create/push before submit)* · local: `filecoin/foc-ops/`
+**Project Repo(s):** https://github.com/panagot/foc-ops *(private — make public or grant FF read before submit)* · local: `filecoin/foc-ops/`
 
 **Filecoin ecosystem affiliations:** None. Independent builder. Live product shipping elsewhere: [AI Agents Archive](https://aiagentsarchive.com/) (Base USDC micropay desk). No PL / FF / FFDW employment or investment relationship.
 

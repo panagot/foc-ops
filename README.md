@@ -25,10 +25,13 @@ We do **not** replace [filecoin-pin](https://github.com/filecoin-project/filecoi
 ### 1. Install
 
 ```bash
-git clone git@github.com:panagot/foc-ops.git
+git clone git@github.com:panagot/foc-ops.git   # private — needs access
 cd foc-ops
 npm install
 ```
+
+Repo: https://github.com/panagot/foc-ops (private)
+
 
 ### 2. Optional — local Calibration test wallet
 
@@ -142,7 +145,7 @@ APIs (demo server): `/api/status` · `/api/tier` · `/api/dry-run` · `/api/netw
 - Strategy: [`grant/GRANT_STRATEGY.md`](./grant/GRANT_STRATEGY.md)  
 - Next Step draft: [`grant/NEXT_STEP_APPLICATION.md`](./grant/NEXT_STEP_APPLICATION.md)  
 - Demo prompts: [`grant/PROMPT_X100_DEMO.md`](./grant/PROMPT_X100_DEMO.md)  
-- CI: [`.github/workflows/runway-check.yml`](./.github/workflows/runway-check.yml)
+- CI template: [`runway-check.workflow.yml`](./runway-check.workflow.yml) (move to `.github/workflows/` once the GitHub token has `workflow` scope)
 
 ---
 
