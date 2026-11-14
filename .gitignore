@@ -4,6 +4,7 @@ dist/
 .env.*
 !.env.example
 .wallets/
+.vercel/
 *.pem
 *.key
 deployments/*.local.json
