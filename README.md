@@ -15,7 +15,7 @@ We do **not** replace [filecoin-pin](https://github.com/filecoin-project/filecoi
 | **Network (default)** | Filecoin **Calibration** testnet · chain id `314159` |
 | **Live console** | `npm run demo` → http://localhost:5310 |
 | **License** | Dual **MIT OR Apache-2.0** |
-| **Grant draft** | [`grant/NEXT_STEP_APPLICATION.md`](./grant/NEXT_STEP_APPLICATION.md) ($10k Next Step) |
+| **Grant draft** | [`grant/NEXT_STEP_APPLICATION.md`](./grant/NEXT_STEP_APPLICATION.md) ($5k Next Step · 30 days) |
 | **Backup if declined** | [`grant/BACKUP_TERRAFORM.md`](./grant/BACKUP_TERRAFORM.md) |
 
 ---
@@ -81,13 +81,13 @@ Redeploy: `npx vercel --prod`
 | 6 | **Network + FVM** | Live Glif probe + TierRegistry status / wallet `recordPromotion` when deployed |
 | 7 | Inject spend | Alert drill `ok → low_runway → deficit` + `/metrics` scrape pane |
 
-### Demo Loom checklist (≤3 min)
+### Reviewer walkthrough (live demo — no video required)
 
-1. RPC badge live on Calibration  
-2. Connect wallet → address in Live Pay  
+1. Open https://foc-ops.vercel.app — RPC badge on Calibration  
+2. Connect wallet → Live Pay for that address  
 3. Scrub `promoteAfterDays` → promote/skip deltas  
 4. Run dry-run → intents  
-5. (If deployed) Network + FVM → submit sample promote → Filscan tx  
+5. Network + FVM → registry address / optional wallet promote  
 
 ---
 

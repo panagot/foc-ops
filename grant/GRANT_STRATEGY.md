@@ -1,28 +1,20 @@
-# Grant strategy — maximize Next Step approval
+# Grant strategy — $5k Next Step
 
-## Verdict (current)
+## Ask
 
-**~65–75%** with live Calibration TierRegistry + hosted demo.  
-**~80%+** after: public GitHub, Loom, Vercel fully public (no auth wall).
+**$5,000** · Developer and data tooling · **30 days** post-contract (program rule for $5k).
 
-## Health (verified)
+## Apply how?
 
-| Check | Result |
-| --- | --- |
-| Calibration RPC | ok · chain 314159 |
-| TierRegistry | `0xc71acb123f31e4ee57d7a0a34234522f61fde589` |
-| Promote tx | success on Filfox |
-| Demo | https://foc-ops.vercel.app |
-| Repo | https://github.com/panagot/foc-ops (still **private**) |
+**No online form.** Create a GitHub issue on [`filecoin-project/devgrants`](https://github.com/filecoin-project/devgrants) using the Builder Next Step template. Overview: [fil.org/grants](https://fil.org/grants).
 
-## Proposal file
+## Demo / video
 
-Submit from: [`NEXT_STEP_APPLICATION.md`](./NEXT_STEP_APPLICATION.md)
+**Live demo is enough to apply:** https://foc-ops.vercel.app  
+Skip Loom for submission. (FF may ask for a short recording only in the *final* update.)
 
-## Before opening the GitHub issue
+## Before opening the issue
 
 1. Make repo **public**  
-2. Confirm Vercel loads without login  
-3. Record ≤3 min Loom  
-4. Paste proposal into `filecoin-project/devgrants` issue  
-5. Keep Terraform as **separate** ask only if declined  
+2. Turn off Vercel Deployment Protection  
+3. Paste [`NEXT_STEP_APPLICATION.md`](./NEXT_STEP_APPLICATION.md) into the issue  

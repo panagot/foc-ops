@@ -1,8 +1,10 @@
 # Grant Proposal: `foc-ops` — FOC Lifecycle Ops
 
 **Program:** FIL Builder Next Step Grants (FIL-B + Filecoin Foundation)  
-**Ask:** **$10,000 USD** · **Category:** Developer and data tooling  
-**Timeline:** 12 weeks after contract  
+**Ask:** **$5,000 USD** · **Category:** Developer and data tooling  
+**Timeline:** **30 days** after contract (Next Step rule for $5k)  
+
+**How to apply:** Open a GitHub issue on [`filecoin-project/devgrants`](https://github.com/filecoin-project/devgrants/issues/new/choose) using the Builder Next Step template — **there is no separate online form**. See [program notes](https://github.com/filecoin-project/devgrants/blob/master/Program%20Resources/Builder%20Next%20Step%20Grants.md) and [fil.org/grants](https://fil.org/grants).
 
 ---
 
@@ -35,12 +37,12 @@ FOC can pin and pay, but operators still go blind on **USDFC runway** and keep d
 ### 2. How is Filecoin used in this project?
 
 - **Filecoin Pay** via `@filoz/synapse-core` `getAccountSummary` — runway, lockup, funds, debt. Live Calibration (Glif) + browser wallet (chain id **314159**).  
-- **FWSS / warm inventory** — age/size policy inputs; dry-run live today; execute path in grant.  
-- **FCSS / cold path** — promotion target when policy fires (human-confirm first versions).  
-- **FVM `TierRegistry`** — already **deployed on Calibration**; `recordPromotion` proven on-chain; Mainnet deploy in grant.  
+- **FWSS / warm inventory** — age/size policy inputs; dry-run live today; execute path in this grant.  
+- **FCSS / cold path** — promotion target when policy fires (human-confirm first version).  
+- **FVM `TierRegistry`** — already **deployed on Calibration**; `recordPromotion` proven on-chain; Mainnet deploy in this grant.  
 - **Prometheus** — `foc_ops_runway_days`, `foc_ops_alert`, example alert rules.
 
-**PoC evidence (Calibration):**
+**PoC evidence (Calibration) — live demo is the walkthrough (no Loom required to apply):**
 
 | Artifact | Link |
 | --- | --- |
@@ -53,28 +55,27 @@ On-chain growth = registry writes + cold promotions driven by real Pay pressure�
 
 ### 3. How will you improve your project with this grant?
 
-PoC already ships: live Pay FinOps, Calibration console, wallet connect, TierRegistry deploy + one promote tx, Prometheus text, hosted demo.
+PoC already ships: live Pay FinOps, hosted Calibration console, wallet connect, TierRegistry + promote tx, Prometheus text.
 
 | # | Grant deliverable | How we meet it | Timeframe |
 | --- | --- | --- | --- |
-| 1 | Harden FinOps | Mainnet Pay status + metrics; Grafana/alert docs; Loom of live console | Weeks 1–3 |
-| 2 | Registry + inventory | Public repo; FWSS/Synapse inventory pull (replace demo JSON); N Calibration registry txs | Weeks 4–7 |
-| 3 | Warm→cold execute | One documented promote-prepare path (warm → cold ref + registry write); Mainnet TierRegistry | Weeks 8–11 |
-| 4 | Ship | npm package, dual-license OSS, final demo, verified Calibration + Mainnet addresses | Week 12 |
+| 1 | Mainnet FinOps + docs | `foc-ops status` / `metrics` on Mainnet Pay; README ops guide; alert YAML | Days 1–10 |
+| 2 | Inventory + execute path | Replace demo JSON with Synapse/FWSS inventory pull; one warm→cold prepare + registry write | Days 11–22 |
+| 3 | Mainnet registry + ship | Deploy TierRegistry on Mainnet; npm publish; public repo polish; verified addresses in final update | Days 23–30 |
 
-**Success metrics:** `npm i foc-ops` works; Loom ≤3 min; Filfox/Filscan links for Calibration + Mainnet registry; CI runway check green.
+**Success metrics:** `npm i foc-ops`; live demo URL; Filfox/Filscan Calibration + Mainnet registry addresses; CI runway check green.
 
 ### 4. What is the total amount of this grant request?
 
-**$10,000 USD**
+**$5,000 USD**
 
 ### 5. Adoption, Reach, and Growth Strategies
 
 **Audience:** FOC / Synapse builders and indie apps that already hold USDFC in Filecoin Pay.
 
-**First 10:** Dogfood Calibration + Mainnet wallets; share CLI in Filecoin Slack/Discord + FIL-B; one “runway before outage” post with demo link.
+**First 10:** Dogfood Calibration + Mainnet; share CLI + https://foc-ops.vercel.app in Filecoin Slack/Discord + FIL-B; short post with demo link.
 
-**First 100:** npm `foc-ops`, copy-paste Prometheus rules, GitHub Action that fails when runway &lt; N days (compose with—not replace—filecoin-pin).
+**First 100:** npm `foc-ops`, copy-paste Prometheus rules, GitHub Action when runway &lt; N days (compose with—not replace—filecoin-pin).
 
 ### 6. If accepted, do you agree to share monthly project updates in this Github Issue until the project described here is complete?
 
@@ -87,7 +88,7 @@ Yes.
 ### 8. Links and submissions
 
 - Not a hackathon resubmit.  
-- **Live demo:** https://foc-ops.vercel.app  
+- **Live demo (primary PoC):** https://foc-ops.vercel.app  
 - **Repo:** https://github.com/panagot/foc-ops  
 - Backup if this ask is declined (do **not** amend this issue): Terraform FOC provider — `grant/BACKUP_TERRAFORM.md` (separate proposal only).
 
@@ -101,7 +102,9 @@ Yes.
 ## Submit checklist (for proposer)
 
 1. [ ] Make https://github.com/panagot/foc-ops **public**  
-2. [ ] Disable Vercel Deployment Protection (or confirm public access)  
-3. [ ] Record ≤3 min Loom: RPC → wallet → Pay → dry-run → registry  
-4. [ ] Open issue on `filecoin-project/devgrants` using this text  
-5. [ ] Do **not** include Terraform in the same issue  
+2. [ ] Disable Vercel Deployment Protection so reviewers can open the demo without login  
+3. [ ] Open a **GitHub issue** on `filecoin-project/devgrants` (no web form) and paste this proposal  
+4. [ ] Do **not** include Terraform in the same issue  
+5. [ ] No Loom required to apply — point reviewers at the live demo  
+
+> Note: FF’s *final* grant report checklist mentions a recorded demo for tooling projects. That is a completion artifact if they insist later — not a barrier to submitting with a working hosted demo.
