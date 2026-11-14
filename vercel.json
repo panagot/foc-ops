@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": "public",
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "{examples/**,deployments/**,contracts/**}"
+    }
+  },
+  "rewrites": [
+    { "source": "/metrics", "destination": "/api/metrics" }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    }
+  ]
+}

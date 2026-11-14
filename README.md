@@ -59,6 +59,16 @@ npm run demo
 
 Open **http://localhost:5310**
 
+### Hosted demo (Vercel)
+
+Production deploy (after `npx vercel --prod`):
+
+- Project: `foc-ops`
+- APIs: `/api/status` · `/api/tier` · `/api/network` · `/api/registry` · `/metrics`
+- Static console from `public/`
+
+If the URL is not listed below yet, run `npx vercel --prod` from this repo.
+
 ### What you should see
 
 | Step | Action | Expected |
