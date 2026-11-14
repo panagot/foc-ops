@@ -7,6 +7,8 @@
 **Contact (for review + post-approval):**  
 - **Email (primary):** panagiotispollis@gmail.com  
 - **GitHub:** [@panagot](https://github.com/panagot)  
+- **Telegram:** [@panagot](https://t.me/panagot)  
+- **X / Twitter:** [@panagot](https://x.com/panagot)  
 - **Application issue:** all Q&A and monthly updates happen as **comments on this GitHub issue**  
 - **After approval:** Filecoin Foundation typically emails the address above + continues on the issue thread to send the Open Source Software Grant Agreement and funding steps (`grants@fil.org` if needed)
 
@@ -22,9 +24,7 @@
 
 **Proposer:** `panagot`
 
-**Project Repo(s):** https://github.com/panagot/foc-ops  
-
-> **Pre-submit:** make the repo **public** (or grant Filecoin Foundation read access). Currently private while polishing.
+**Project Repo(s):** https://github.com/panagot/foc-ops *(public)*
 
 **Live demo (primary PoC walkthrough):** https://foc-ops.vercel.app  
 
@@ -67,7 +67,7 @@ Warm/cold CID strings are hashed (`keccak256`) so mappings are compact and audit
 | Artifact | Link |
 | --- | --- |
 | Hosted console | https://foc-ops.vercel.app |
-| Private repo (public before submit) | https://github.com/panagot/foc-ops |
+| Public repo | https://github.com/panagot/foc-ops |
 | TierRegistry | [`0xc71acb123f31e4ee57d7a0a34234522f61fde589`](https://calibration.filfox.info/en/address/0xc71acb123f31e4ee57d7a0a34234522f61fde589) |
 | Deploy tx | [`0x1b06a2528a43ab8071214a62784c212ec5b46e460d9c08778f75018a25f6dcfb`](https://calibration.filfox.info/en/message/0x1b06a2528a43ab8071214a62784c212ec5b46e460d9c08778f75018a25f6dcfb) |
 | Sample `recordPromotion` | [`0x24561b7e6d31b7feb002c702227559b7d4cf30f4524f67d538cd5da3e79cb381`](https://calibration.filfox.info/en/message/0x24561b7e6d31b7feb002c702227559b7d4cf30f4524f67d538cd5da3e79cb381) |
@@ -168,30 +168,13 @@ Yes.
 - **Live demo:** https://foc-ops.vercel.app  
 - **Repo:** https://github.com/panagot/foc-ops  
 - **Email:** panagiotispollis@gmail.com  
+- **Telegram:** [@panagot](https://t.me/panagot)  
+- **X / Twitter:** [@panagot](https://x.com/panagot)  
 - Backup if this ask is declined (**separate** issue only — do not amend this one): Terraform FOC provider — repo path `grant/BACKUP_TERRAFORM.md`.
 
 ### Additional questions
 
-- **Team:** Panagiotis Pollis · **panagiotispollis@gmail.com** · GitHub [`panagot`](https://github.com/panagot) · sole engineer (product, CLI, FVM, console, docs).  
-- **Timezone / response:** Europe (UTC+2 / UTC+3) · typically replies within 24h on email or issue comments.  
+- **Team:** Panagiotis Pollis · **panagiotispollis@gmail.com** · GitHub [`panagot`](https://github.com/panagot) · Telegram [@panagot](https://t.me/panagot) · X [@panagot](https://x.com/panagot) · sole engineer (product, CLI, FVM, console, docs).  
+- **Timezone / response:** Europe (UTC+2 / UTC+3) · typically replies within 24h on email, Telegram, or issue comments.  
 - **How I learned about this program:** Filecoin Foundation grants hub + Builder Next Step documentation in `filecoin-project/devgrants`.
 
----
-
-## Post-approval: how Filecoin Foundation contacts you
-
-1. **During review:** comments from FF staff (e.g. `FF-FOIT`) **on this GitHub issue**; sometimes questions by email.  
-2. **If moving forward:** email to **panagiotispollis@gmail.com** with next steps / Open Source Software Grant Agreement (as in prior Next Step awards).  
-3. **General grants inbox:** [grants@fil.org](mailto:grants@fil.org)  
-4. **After contract:** monthly (here: weekly) updates stay on **this same issue** until completion; final update lists Mainnet + Calibration addresses and demo.
-
-Watch: GitHub issue notifications + the email above.
-
----
-
-## Proposer submit checklist (do not paste into issue)
-
-1. [ ] Make https://github.com/panagot/foc-ops **public**  
-2. [ ] Disable Vercel Deployment Protection (demo must open without login)  
-3. [ ] Open Builder Next Step issue on `filecoin-project/devgrants` and paste §§ above (from Project Name through Additional questions)  
-4. [ ] Keep Terraform out of this issue  
