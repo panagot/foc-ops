@@ -1,0 +1,8 @@
+{
+  "network": "calibration",
+  "address": "0xc71acb123f31e4ee57d7a0a34234522f61fde589",
+  "txHash": "0x1b06a2528a43ab8071214a62784c212ec5b46e460d9c08778f75018a25f6dcfb",
+  "deployer": "0x82cb7b219c51ebc68fb2eE090393e2E05f01Fd08",
+  "deployedAt": "2026-11-14T19:26:37.124Z",
+  "chainId": 314159
+}

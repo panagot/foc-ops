@@ -27,5 +27,8 @@
     "@filoz/synapse-core": "^0.10.3",
     "commander": "^13.1.0",
     "viem": "^2.38.0"
+  },
+  "devDependencies": {
+    "solc": "^0.8.38"
   }
 }

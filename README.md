@@ -114,13 +114,20 @@ npm run registry:status
 
 ## Deploy TierRegistry (Calibration)
 
-Needs a funded Calibration wallet in `.env.local`:
+**Live on Calibration (deployed):**
+
+| | |
+| --- | --- |
+| **TierRegistry** | [`0xc71acb123f31e4ee57d7a0a34234522f61fde589`](https://calibration.filfox.info/en/address/0xc71acb123f31e4ee57d7a0a34234522f61fde589) |
+| **Deploy tx** | [`0x1b06a252…dcfb`](https://calibration.filfox.info/en/message/0x1b06a2528a43ab8071214a62784c212ec5b46e460d9c08778f75018a25f6dcfb) |
+| **Deployer** | `0x82cb7b219c51ebc68fb2eE090393e2E05f01Fd08` |
+
+Artifact: [`deployments/calibration.json`](./deployments/calibration.json)
 
 ```bash
 npm i -D solc          # once, for compile
 npm run deploy:registry -- --network calibration
 # → deployments/calibration.json
-# export FOC_TIER_REGISTRY_CALIBRATION=0x…
 ```
 
 ---
